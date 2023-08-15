@@ -36,6 +36,5 @@ def create_email_and_send(songName,receiver):
     audio=encode_audio_files(path)
     message=create_email(audio,sender,receiver,f'{songName}.mp3',path)
     send_email(message)
-
-if __name__=="__main__":
     print('Sent successfully')
+
