@@ -4,7 +4,7 @@ from send_email import create_email_and_send
 from getPlaylists import get_user_tracks
 def main():
     query=input()
-    if query[0:7]=='spotify':
+    if query=='spotify':
         user_id=input("Enter your spotify user id ")
         receiver=input("Enter your email: ")
         songs=get_user_tracks(user_id)
