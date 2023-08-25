@@ -49,7 +49,6 @@ def get_user_playlists(token,user_id):
 def get_user_tracks(user_id):
     token=get_token()
     songs=[]
-    # user_id='31yhjd7ntfspdgdx5uxhcl4pnjny'
     playlists=get_user_playlists(token,user_id)
     for playlist in playlists:
         songs.extend(get_songs_of_playlists(token,playlist))
