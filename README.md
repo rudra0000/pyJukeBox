@@ -6,7 +6,7 @@ This is a Python script that helps the user to download songs and transfer them 
 For this project, I have used YouTube API, Spotify API and some Python libraries such as Pytube, SMTPlib, JSON and email. I have used email.MIMEBASE to load songs to the email.
 
 ## How to use
-After downloading all the files of the code in a directory user can run the command **python3 main.py**. If the user wants to download only one song then they can simply write the name of the song on the terminal and the email ID in which they want to get the song. But if they want to download songs from their custom playlist they have to write **spotify** in the terminal and then their Spotify user ID and their email ID.
+After downloading all the files of the code in a directory user can run the command **python3 main.py**. If the user wants to download only one song then they can simply write the name of the song on the terminal and the email ID in which they want to get the song. But if they want to download songs from their custom playlist they have to write **spotify** in the terminal and then their Spotify user ID and their email ID. Also make sure that the downloaded_songs.json is empty when the code is downloaded.
 
 ## Challenges Faced and How I overcame them
 + I was trying to get the URL of the song video on YouTube by using Beautiful Soup 4 but unfortunately, it was not working. Later on, I realised that I should give some time for the js to properly load and then get the link. However, I found a much better legal fix for this problem in YouTube API.
