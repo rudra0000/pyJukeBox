@@ -35,22 +35,48 @@ def send_email(message,receiver):
         server.login(sender,password)
         server.sendmail(from_addr=sender,to_addrs=receiver,msg=message.as_string())
 
-def sendSpotifyPlaylistSongs(songs,receiver):
-    msg=MIMEMultipart()
-    msg['From']=sender
-    msg['To']=receiver
-    msg['Subject']='Your Spotify Playlist'
+def sendSpotifyPlaylistSongs(songs, receiver, email_size_limit=10 * 1024 * 1024):
+    def calculate_message_size(msg):
+        serialized_msg = msg.as_string()
+        return len(serialized_msg)
+
+    def create_new_message():
+        msg = MIMEMultipart()
+        msg['From'] = sender
+        msg['To'] = receiver
+        msg['Subject'] = 'Your Spotify Playlist'
+        return msg
+
+    sender = "your_email@example.com"  # Update this with your sender email
+
+    messages = []
+    current_msg = create_new_message()
+    total_size = 0
     for song in songs:
-        songName=unidecode(song)
-        path=f'/home/rudrap/pyJukebox/{songName}.mp3'
-        part=MIMEBase('applicatiion','octet-stream')
-        part.set_payload(open(path,'rb').read())
+        song_name = unidecode(song)
+        path = f'/home/rudrap/pyJukebox/{song_name}.mp3'
+        song_size = os.path.getsize(path)
+
+        if total_size + song_size > email_size_limit:
+            messages.append(current_msg)
+            current_msg = create_new_message()
+            total_size = 0
+
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(open(path, 'rb').read())
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition',f'attachment;filename="{songName}.mp3"')
-        msg.attach(part)
-        print('message attached')
-    send_email(msg,receiver)
-    print('Done')
+        part.add_header('Content-Disposition', f'attachment;filename="{song_name}.mp3"')
+        current_msg.attach(part)
+        total_size += song_size
+
+    if current_msg.get_payload():
+        messages.append(current_msg)
+
+    for idx, msg in enumerate(messages, start=1):
+        send_email(msg, receiver)
+        print(f"Sent message {idx} with {len(msg.get_payload())} songs.")
+
+    print('All messages sent')
 def create_email_and_send(songName,receiver):
     path=f'/home/rudrap/pyJukebox/{songName}.mp3'
     print(determine_mime_type(path))
