@@ -47,7 +47,6 @@ def sendSpotifyPlaylistSongs(songs, receiver, email_size_limit=10 * 1024 * 1024)
         msg['Subject'] = 'Your Spotify Playlist'
         return msg
 
-    sender = "your_email@example.com"  # Update this with your sender email
 
     messages = []
     current_msg = create_new_message()
